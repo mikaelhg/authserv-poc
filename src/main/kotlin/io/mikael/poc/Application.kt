@@ -50,11 +50,10 @@ class Application {
 	fun protocolFilterChain(http: HttpSecurity): SecurityFilterChain {
 		OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
 		http
-			.exceptionHandling { exceptions: ExceptionHandlingConfigurer<HttpSecurity> ->
-				exceptions
-					.authenticationEntryPoint(
-						LoginUrlAuthenticationEntryPoint("/login")
-					)
+			.exceptionHandling { exceptions ->
+				exceptions.authenticationEntryPoint(
+					LoginUrlAuthenticationEntryPoint("/login")
+				)
 			}
 			.oauth2ResourceServer { obj -> obj.jwt() }
 			.getConfigurer(OAuth2AuthorizationServerConfigurer::class.java)
@@ -85,7 +84,7 @@ class Application {
 	}
 
 	@Bean
-	fun passwordEncode() = BCryptPasswordEncoder()
+	fun passwordEncoder() = BCryptPasswordEncoder()
 
 	@Bean
 	fun registeredClientRepository(): RegisteredClientRepository {
